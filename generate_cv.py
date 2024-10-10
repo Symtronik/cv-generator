@@ -67,51 +67,13 @@ class PDF(FPDF):
                 self.cell(40, 5, f"{title}: {contact_detail}", new_x='LMARGIN', new_y='NEXT')
 
 
-    def add_skills(self):
+    def add_skills(self, title, content):
         self.set_xy(10, self.get_y() + 5)
         self.set_font(self.font_title, 'B', 12)
-        self.cell(40, 10, 'Skills:', new_x='LMARGIN', new_y='NEXT')
+        self.cell(40, 10, title, new_x='LMARGIN', new_y='NEXT')
 
 
-
-        skills = {
-            "Python": [
-                "FastAPI",
-                "Django",
-                "Matplotlib",
-                "NumPy",
-                "Rest Api Django",
-                "Selenium"
-            ],
-            "PHP8": [
-                "Laravel",
-                "Zend"
-            ],
-            "JavaScript": [
-                "Vue.js"
-            ],
-            "CSS": [
-                "Tailwind CSS",
-                "Bootstrap"
-            ],
-            "Database": [
-                "MySQL",
-                "PostgreSQL"
-            ],
-            "Git": [
-                "GitHub",
-                "Bitbucket"
-            ],
-            "Other": [
-                "HTML5",
-                "WordPress",
-                "Docker",
-                "Linux",
-                "Postman"
-            ]
-        }
-
-        for category, skill_list in skills.items():
+        for category, skill_list in content.items():
             self.set_font(self.font_content, 'B', 10)
             self.cell(40, 6, category, new_x='LMARGIN', new_y='NEXT')
             self.set_font(self.font_content, '', 10)
@@ -133,17 +95,18 @@ class PDF(FPDF):
         self.set_xy(self.x_content, self.get_y() + 5)
         self.cell(200, 0, 'Specialization: Software Development', new_x='LMARGIN', new_y='NEXT')
 
-    def section_content_title(self, title):
-        self.set_xy(self.x_content, self.get_y() + 10)
+    def section_content_title(self, title, margin):
+
+        self.set_xy(self.x_content, self.get_y() + margin)
         self.set_font(self.font_title, 'B', self.font_size_title)
         self.cell(self.x_content, 5, title, new_x='LMARGIN', new_y='NEXT')
         self.add_line()
-    def section_content(self, title, content, content_type):
-        self.section_content_title(title)
+    def section_content(self, title, content, content_type, margin = 10):
+        self.section_content_title(title, margin)
 
         self.set_font(self.font_content, '', 10)
         if content_type == 'list':
-            for language, level in content.items():  # Użycie key, value dla języka i poziomu
+            for language, level in content.items():
                 self.set_xy(self.x_content, self.get_y() + 5)
                 self.multi_cell(130, 0, f"{language}: {level}", new_x='LMARGIN', new_y='NEXT')
         elif content_type == 'dict':
@@ -229,14 +192,14 @@ pdf.add_page()
 pdf.add_title(data["title"]["name"], data["title"]["subtitle"])
 
 
-pdf.section_content(data["experience"]["section_title"], data["experience"]['company'], content_type="dict")
+pdf.section_content(data["experience"]["section_title"], data["experience"]['company'], content_type="dict", margin=20)
 pdf.education()
 pdf.section_content(data["languages"]["section_title"], data["languages"]["language"], content_type="list")
 pdf.section_content(data["interests"]["section_title"], data["interests"]["content"], content_type="text")
 pdf.left_column()
 pdf.add_photo('photo.jpeg', 10, 2, 55)
 pdf.add_contact_info()
-pdf.add_skills()
+pdf.add_skills("SKILS", data['skills'])
 
 pdf.output('Michal_Kobialka.pdf')
 
