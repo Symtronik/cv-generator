@@ -110,14 +110,14 @@ class PDF(FPDF):
 
 data = {
     "title": {
-        "name": "Michal Kobialka",
+        "name": "Michal K-ka",
         "subtitle": "Python Developer"
     },
     "contact_info": {
         "section_title": "Contact Information",
         "contact" : {
-            "Email": "m.kobialka@ezze.pl",
-            "Phone": "+48 882 137 202",
+            "Email": "example@example.com",
+            "Phone": "+48 555 555 555",
             "Location": "Radom, Poland"
         }
     },
